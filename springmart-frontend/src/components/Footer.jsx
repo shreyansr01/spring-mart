@@ -26,7 +26,7 @@ const Footer = () => {
           </a>
           <span className={styles.divider} aria-hidden="true">/</span>
           <a
-            href="https://github.com/ShreyanDev5/spring-mart"
+            href="https://github.com/shreyansr01/spring-mart"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.link}
