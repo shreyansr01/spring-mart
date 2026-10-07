@@ -104,4 +104,4 @@ npm start
 
 ## Author
 
-**Shreyan Sardar** — [Portfolio](https://shreyandev.vercel.app) · [GitHub](https://github.com/shreyansr01) · [LinkedIn](https://www.linkedin.com/in/shreyansardar/)
+**Shreyan Sardar** — [Portfolio](https://shreyansr.vercel.app/) · [GitHub](https://github.com/shreyansr01) · [LinkedIn](https://www.linkedin.com/in/shreyansardar/)

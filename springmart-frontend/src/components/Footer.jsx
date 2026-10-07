@@ -15,7 +15,7 @@ const Footer = () => {
 
         <div className={styles.right}>
           <a
-            href="https://shreyandev.vercel.app"
+            href="https://shreyansr.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.link}
