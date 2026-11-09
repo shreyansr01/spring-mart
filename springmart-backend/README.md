@@ -58,7 +58,7 @@ Understanding how data traverses the application is essential for troubleshootin
 ### 3. Case-Insensitive Product Search
 - **Input**: `GET /api/products/search?keyword=...`.
 - **Logic**: A single, custom JPQL query performs a case-insensitive check across multiple text fields (`name`, `description`, `category`, `brand`) utilizing SQL `LOWER` and `CONCAT('%', :keyword, '%')` operators.
-- **Output**: Returns `200 OK` with matching results, or `204 No Content` if no products match.
+- **Output**: Returns `200 OK` with matching results (or an empty list if none match).
 
 ### 4. Binary Image Retrieval
 - **Input**: `GET /api/products/image/{id}`.

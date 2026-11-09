@@ -2,6 +2,12 @@
 springmart-backend/target/
 *.class
 
+# H2 Database
+springmart-backend/data/
+data/
+*.mv.db
+*.trace.db
+
 # Frontend (Node.js)
 node_modules/
 springmart-frontend/node_modules/

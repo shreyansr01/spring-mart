@@ -13,7 +13,6 @@ function ProductCard({ product, imageVersion, onProductDelete }) {
     const navigate = useNavigate();
     const formattedPrice = new Intl.NumberFormat("en-IN").format(Number(price) || 0);
 
-    const imgRef = useRef(null);
     const cardRef = useRef(null);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -24,30 +23,6 @@ function ProductCard({ product, imageVersion, onProductDelete }) {
     useEffect(() => {
         setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
     }, []);
-
-    useEffect(() => {
-        const currentImgRef = imgRef.current;
-
-        if (!currentImgRef || (currentImgRef.src && currentImgRef.complete)) {
-            return undefined;
-        }
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting && currentImgRef) {
-                        currentImgRef.src = imageUrl;
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { rootMargin: "50px" }
-        );
-
-        observer.observe(currentImgRef);
-
-        return () => observer.disconnect();
-    }, [imageUrl]);
 
     function handleTouchStart() {
         if (!isTouchDevice || !cardRef.current) {
@@ -100,7 +75,6 @@ function ProductCard({ product, imageVersion, onProductDelete }) {
                         className={styles.productImage}
                         onError={handleImageError}
                         loading="lazy"
-                        ref={imgRef}
                     />
                     <div className={styles.floatingActions}>
                         <button

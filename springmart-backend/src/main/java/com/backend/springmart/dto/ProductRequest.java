@@ -10,20 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-/**
- * Data Transfer Object (DTO) capturing HTTP input payloads for creating or updating products.
- * 
- * Using a dedicated DTO instead of the persistent JPA Entity protects the internal persistence schema,
- * prevents mass assignment vulnerabilities, and allows customized validation rules for incoming requests.
- * 
- * Enforces standard JSR 380 (Bean Validation 2.0) declarations which are intercepted by Spring's
- * {@code @Valid} annotation at the controller boundary.
- * 
- * Lombok annotations are utilized to eliminate boilerplates:
- * - {@code @Data}: Generates getters, setters, toString, equals, and hashCode.
- * - {@code @NoArgsConstructor}: Generates the default public constructor required by Jackson serialization.
- * - {@code @AllArgsConstructor}: Generates a constructor matching all declared fields.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

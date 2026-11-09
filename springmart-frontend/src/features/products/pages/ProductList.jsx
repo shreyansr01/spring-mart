@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FiX } from "react-icons/fi";
 import LoadingMessage from "../../../shared/components/LoadingMessage";
 import { ErrorState } from "../../../shared/components/UIStates";
@@ -8,6 +8,7 @@ import ProductCard from "../components/ProductCard";
 import SkeletonCard from "../components/SkeletonCard";
 
 const PAGE_SIZE = 12;
+const MAX_RETRIES = 5;
 
 function ProductList({ searchQuery = "", onClearSearch, imageVersion, refreshTrigger = 0 }) {
     const normalizedSearchQuery = useMemo(() => searchQuery.trim(), [searchQuery]);
@@ -17,6 +18,15 @@ function ProductList({ searchQuery = "", onClearSearch, imageVersion, refreshTri
     const [error, setError] = useState(null);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const retryTimerRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            if (retryTimerRef.current) {
+                clearTimeout(retryTimerRef.current);
+            }
+        };
+    }, []);
 
     const categories = useMemo(() => {
         if (!products || products.length === 0) return ["All"];
@@ -47,9 +57,11 @@ function ProductList({ searchQuery = "", onClearSearch, imageVersion, refreshTri
             setHasMore(response.hasMore);
             setLoading(false);
         } catch (requestError) {
-            // Auto retry on network errors or 5xx server boot errors (Render server spinning up)
-            if (!requestError.status || requestError.status >= 500) {
-                setTimeout(() => {
+            if ((!requestError.status || requestError.status >= 500) && retryCount < MAX_RETRIES) {
+                if (retryTimerRef.current) {
+                    clearTimeout(retryTimerRef.current);
+                }
+                retryTimerRef.current = setTimeout(() => {
                     loadProducts(pageToLoad, replace, retryCount + 1);
                 }, 8000);
             } else {
@@ -235,7 +247,6 @@ function ProductList({ searchQuery = "", onClearSearch, imageVersion, refreshTri
                 <h1 className={styles.pageTitle}>All Products</h1>
             )}
 
-            {/* Category Filter Pills on All Products page by default */}
             {!loading && !error && categories.length > 1 && (
                 <div className={styles.categoryFilters} role="tablist" aria-label="Filter products by category">
                     {categories.map((category) => {

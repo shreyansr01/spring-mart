@@ -1,5 +1,6 @@
 package com.backend.springmart.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -7,14 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
 
-/**
- * Persistent JPA Entity mapped to the relational database table "Product".
- * 
- * Configured as a standard Java Bean carrying Object-Relational Mapping (ORM) metadata:
- * - {@code @Entity}: Declares this class as a JPA entity managed by Hibernate (the default persistence provider).
- * - {@code @Id}: Flags the primary key.
- * - {@code @GeneratedValue(strategy = GenerationType.IDENTITY)}: Indicates database-native auto-incrementing identity values.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,24 +32,18 @@ public class Product
     private String category;
 
     @Min(value = 0, message = "Quantity must be greater than or equal to 0")
-    private int quantity;
+    private Integer quantity;
 
     @NotBlank(message = "Brand is required")
     private String brand;
 
-    private boolean inStock;
+    private Boolean inStock;
     private Date releaseDate;
 
-    // Image-related metadata (stored as standard string columns)
     private String imageName;
-    private String imageType; // Captures the MIME type (e.g., image/jpeg) to construct accurate HTTP streams.
+    private String imageType;
 
-    /**
-     * Stores original binary image bytes directly inside the database.
-     * 
-     * The {@code @Lob} (Large Object) annotation instructs Hibernate and the database engine 
-     * to allocate a BLOB (Binary Large Object) column instead of a standard VARCHAR/VARBINARY.
-     */
     @Lob
+    @JsonIgnore
     private byte[] imageData;
 }

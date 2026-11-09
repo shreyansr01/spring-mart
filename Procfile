@@ -1,1 +1,0 @@
-web: java -jar springmart-backend/springmart/target/springmart-0.0.1-SNAPSHOT.jar 
